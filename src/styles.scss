@@ -1,0 +1,21 @@
+@import 
+  'functions',
+  'variables',
+  'mixins',
+  'print',
+  'reboot',
+  'type';
+  
+@import 'assets/sass/variables';
+@import 'assets/sass/mixins';
+
+.mainTitle {
+  color: $header-text;
+  background: $header-bg;
+  text-align: center;
+  padding: 10px;
+
+  small {
+    font-size: .5em;
+  }
+}

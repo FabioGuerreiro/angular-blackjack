@@ -1,0 +1,54 @@
+@import '../../../assets/sass/variables';
+@import '../../../assets/sass/mixins';
+
+.card {
+    position: relative;
+    float: left;
+    margin: 5px;
+    width: 45px;
+    height: 70px;
+    background: #fff;
+    border: 1px solid #eee;
+    @include border-radius(3px);
+    @include box-shadow(3px, 3px, 7px, rgba(0,0,0,0.3));
+
+    p {
+        margin-top: 20px;
+        text-align: center;
+        font: 20px Georgia, Times New Roman, serif;
+    }
+
+    &.suithearts, &.suitdiamonds{
+        color: $card-suit-red;
+    }
+    &.suitspades, &.suitclubs{
+        color: $card-suit-black;
+    }
+
+    &.suithearts:before, &.suithearts:after{
+        content: '♥';
+    }
+    &.suitspades:before, &.suitspades:after{
+        content: '♠';
+    }
+    &.suitdiamonds:before, &.suitdiamonds:after{
+        content: "♦";
+    }
+    &.suitclubs:before, &.suitclubs:after{
+        content: '♣';
+    }
+
+    &[class*='suit']:before {
+        position: absolute;
+        font-size: 14px;
+        left: 5px;
+        top: 5px;
+    }
+
+    &[class*='suit']:after {
+        position: absolute;
+        font-size: 14px;
+        right: 5px;
+        bottom: 5px;
+    }
+}
