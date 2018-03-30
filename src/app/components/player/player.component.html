@@ -1,0 +1,9 @@
+<div class="playerContainer">
+  <div class="playerPoints">{{player.Name}}: {{player.Points}}</div>
+
+  <div class="playerHand">
+    <app-hand [hand]="player.Hand"></app-hand>
+  </div>
+
+  <div class="playerActions" *ngIf="player.Human && player.Active"></div>
+</div>
