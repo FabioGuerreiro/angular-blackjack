@@ -12,5 +12,7 @@ export class Player implements Iplayer {
         public Human: boolean = true
     ) {
         this.Active = false;
+        this.Hand = [];
+        this.Points = 0;
     }
 }

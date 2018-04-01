@@ -1,9 +1,12 @@
-<div class="playerContainer">
-  <div class="playerPoints">{{player.Name}}: {{player.Points}}</div>
+<div class="playerContainer" [ngClass]="{'active': player.Active}">
+  <div class="playerDetails">{{player.Name}}: <span class="points">{{player.Points}}</span></div>
 
   <div class="playerHand">
     <app-hand [hand]="player.Hand"></app-hand>
   </div>
 
-  <div class="playerActions" *ngIf="player.Human && player.Active"></div>
+  <div class="playerActions" *ngIf="player.Human && player.Active">
+    <button (click)="hit()">Hit</button>
+    <button (click)="stay()">Stay</button>
+  </div>
 </div>

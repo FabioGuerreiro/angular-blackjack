@@ -15,7 +15,7 @@ export class DeckService {
 
     this.deck = [];
 
-    cardSuits.map((s) => cardValues.map((v) => this.deck.push(new Card(v, s))));
+    cardSuits.map((s) => cardValues.map((v) => this.deck.push(new Card(s, v))));
   }
 
   public shuffle() {

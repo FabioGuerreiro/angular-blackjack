@@ -6,7 +6,7 @@ import { Card } from '../classes/card';
 
 @Injectable()
 export class BlackjackService {
-  public currentPlayerId: number;
+  public players: Player[];
 
   constructor(
     private sDeck: DeckService,
@@ -15,7 +15,6 @@ export class BlackjackService {
 
   public resetGame() {
     this.sPlayer.resetPlayers();
-    this.newGame();
   }
 
   public resetDeck() {
@@ -25,10 +24,13 @@ export class BlackjackService {
 
   public newGame() {
     this.resetDeck();
+    this.sPlayer.getPlayers().subscribe((p) => this.players = p);
+    this.sPlayer.setActive(this.players[this.players.length - 1].Id);
+    this.dealCards();
   }
 
   public dealCards() {
-    this.sPlayer.players.map((player) => {
+    this.players.map((player) => {
       if (player.Human) {
         while (player.Hand.length < 2) {
             this.hit(player, true);
@@ -45,40 +47,36 @@ export class BlackjackService {
     this.handlePoints(player);
 
     if (!dealing && !player.Human) {
-        this.autoPlay(player);
+      this.autoPlay(player);
     }
   }
 
   public stay(player: Player) {
-    const nextPlayer = this.nextPlayer(player);
-    if (this.currentPlayerId >= 0 && !nextPlayer.Human) {
-          this.autoPlay(nextPlayer);
+    const nextPlayer = this.sPlayer.nextPlayer(player.Id);
+
+    if (typeof(nextPlayer) !== 'undefined' && !nextPlayer.Human) {
+      this.autoPlay(nextPlayer);
     } else {
       this.endGame();
     }
   }
 
-  private nextPlayer(player: Player): Player {
-    this.currentPlayerId = player.Id - 1;
-    return this.sPlayer.players.filter((p) => p.Id === this.currentPlayerId)[0];
-  }
-
   private autoPlay(player) {
     let highestScore = 0;
 
-    this.sPlayer.players.map((p) => {
+    this.players.map((p) => {
         if (p.Id !== player.Id && p.Points <= 21 && p.Points > highestScore) {
-            highestScore = p.Points;
+          highestScore = p.Points;
         }
     });
 
-    window.setTimeout(() => {
-        // if points are inferior to other players have to hit
-        if (player.points <= highestScore) {
-            this.hit(player);
-        } else {
-            this.stay(player);
-        }
+    setTimeout(() => {
+      // if points are inferior to other players have to hit
+      if (player.Points <= highestScore) {
+        this.hit(player);
+      } else {
+        this.stay(player);
+      }
     }, 1000);
   }
 
@@ -100,7 +98,7 @@ export class BlackjackService {
             points += this.cardWeight(card, points);
         });
 
-        player.Points = points;
+        this.sPlayer.setPoints(player.Id, points);
     }
 
     // checkWinners(player);
@@ -123,7 +121,7 @@ export class BlackjackService {
     let highestScore = 0;
     let winner: Player;
 
-    this.sPlayer.players.map((p) => {
+    this.players.map((p) => {
         if (p.Points <= 21 && p.Points > highestScore) {
             highestScore = p.Points;
             winner = p;

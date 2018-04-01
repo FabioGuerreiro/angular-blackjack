@@ -22,4 +22,52 @@ body {
       font-size: .5em;
     }
   }
+
+  .playerContainer {
+    display: block;
+    margin: 5px auto;
+    padding-top: 10px;
+    width: 320px;
+    clear: both;
+    color: #fff;
+    border: solid 2px #ccc;
+    padding: 10px;
+    display: block;
+    @include border-radius(3px);
+
+    .playerDetails{
+      width: 100%;
+      color: #fff;
+      text-align: center;
+      font-weight: bold;
+      padding-bottom: 10px;
+
+      .points{
+        color: yellow;
+      }
+    }
+    
+    .playerHand{
+        overflow: auto;
+        clear: both;
+    }
+
+    &.active{
+      border: solid 2px #fff;
+      background: rgba(255, 255, 255, .3);
+    }
+  }
+
+  .deck{
+    width: 62px;
+    margin: 0 auto;
+    
+    > div:first-of-type{
+      width: 100%;
+      color: #fff;
+      text-align: center;
+      font-weight: bold;
+      padding-bottom: 10px;
+    }
+  }
 }

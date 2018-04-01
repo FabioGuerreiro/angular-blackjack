@@ -1,4 +1,10 @@
 <div class="table">
+  <div class="deck">
+    <div>Deck</div>
+    <app-card [card]="deck">
+    </app-card>
+  </div>
+
   <app-player *ngFor="let player of players" [player]="player">
   </app-player>
 </div>

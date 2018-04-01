@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Player } from '../../classes/player';
+import { BlackjackService } from '../../services/blackjack.service';
 
 @Component({
   selector: 'app-player',
@@ -9,9 +10,19 @@ import { Player } from '../../classes/player';
 export class PlayerComponent implements OnInit {
   @Input() player: Player;
 
-  constructor() { }
+  constructor(
+    private sGame: BlackjackService
+  ) { }
 
   ngOnInit() {
+  }
+
+  public hit() {
+    this.sGame.hit(this.player);
+  }
+
+  public stay() {
+    this.sGame.stay(this.player);
   }
 
 }
