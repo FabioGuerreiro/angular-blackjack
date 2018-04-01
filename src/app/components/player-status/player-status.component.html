@@ -1,0 +1,8 @@
+<div class="playerStatus">
+  <div [ngClass]="winOrLose">
+    {{statusTitle}}
+    <div class="statusText" *ngIf="statusText.length > 0">
+      {{statusText}}
+    </div>
+  </div>
+</div>

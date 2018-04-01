@@ -3,27 +3,28 @@ import { Player } from '../classes/player';
 import { Card } from '../classes/card';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
+import { playerStatus } from '../interfaces/iplayer';
 
 @Injectable()
 export class PlayerService {
-  public innnerPlayers: Player[];
+  public innerPlayers: Player[];
   public players: BehaviorSubject<Player[]> = new BehaviorSubject<Player[]>([]);
 
   constructor() {}
 
   public resetPlayers() {
-    this.innnerPlayers = [];
-    this.innnerPlayers.push(new Player(this.innnerPlayers.length + 1, 'House', false));
+    this.innerPlayers = [];
+    this.innerPlayers.push(new Player(this.innerPlayers.length + 1, 'House', false));
     this.updateSubject();
   }
 
   public addPlayer(name: string) {
-    this.innnerPlayers.push(new Player(this.innnerPlayers.length + 1, name, true));
+    this.innerPlayers.push(new Player(this.innerPlayers.length + 1, name, true));
     this.updateSubject();
   }
 
   public clearHand(playerId: number) {
-    this.innnerPlayers.map((p) => {
+    this.innerPlayers.map((p) => {
       if (p.Id === playerId) {
         p.Hand = [];
       }
@@ -32,7 +33,7 @@ export class PlayerService {
   }
 
   public addToHand(playerId: number, card: Card) {
-    this.innnerPlayers.map((p) => {
+    this.innerPlayers.map((p) => {
       if (p.Id === playerId) {
         p.Hand.push(card);
       }
@@ -41,7 +42,7 @@ export class PlayerService {
   }
 
   public setPoints(playerId: number, points: number) {
-    this.innnerPlayers.map((p) => {
+    this.innerPlayers.map((p) => {
       if (p.Id === playerId) {
         p.Points = points;
       }
@@ -50,7 +51,7 @@ export class PlayerService {
   }
 
   public setActive(playerId: number) {
-    this.innnerPlayers.map((p) => {
+    this.innerPlayers.map((p) => {
       p.Active = p.Id === playerId;
     });
     this.updateSubject();
@@ -58,11 +59,20 @@ export class PlayerService {
 
   public nextPlayer(playerId: number): Player {
     this.setActive(playerId - 1);
-    return this.innnerPlayers.filter((p) => p.Active)[0];
+    return this.innerPlayers.filter((p) => p.Active)[0];
+  }
+
+  public updateStatus(playerId: number, text: string, win: boolean) {
+    const player = this.innerPlayers.filter((p) => p.Id === playerId)[0];
+
+    player.Status = win ? playerStatus.Win : playerStatus.Lose;
+    player.StatusText = text;
+
+    this.updateSubject();
   }
 
   private updateSubject() {
-    this.players.next(this.innnerPlayers);
+    this.players.next(this.innerPlayers);
   }
 
   public getPlayers(): Observable<Player[]> {

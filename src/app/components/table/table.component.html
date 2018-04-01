@@ -3,6 +3,7 @@
     <div>Deck</div>
     <app-card [card]="deck">
     </app-card>
+    <button class="btn btn-info" (click)="newGame()">Restart</button>
   </div>
 
   <app-player *ngFor="let player of players" [player]="player">

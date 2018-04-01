@@ -5,8 +5,11 @@
     <app-hand [hand]="player.Hand"></app-hand>
   </div>
 
-  <div class="playerActions" *ngIf="player.Human && player.Active">
-    <button (click)="hit()">Hit</button>
-    <button (click)="stay()">Stay</button>
+  <div class="playerActions btn-group" role="group" aria-label="player actions" *ngIf="player.Human && player.Active">
+    <button class="btn btn-light" (click)="hit()">Hit</button>
+    <button class="btn btn-danger" (click)="stay()">Stay</button>
   </div>
+
+  <app-player-status [status]="player.Status" [statusText]="player.StatusText" *ngIf="showStatus()">
+  </app-player-status>
 </div>

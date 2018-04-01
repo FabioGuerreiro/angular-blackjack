@@ -1,10 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Card } from '../classes/card';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable } from 'rxjs/Observable';
 
 
 @Injectable()
 export class DeckService {
   public deck: Card[];
+  public deckLength: BehaviorSubject<number> = new BehaviorSubject<number>(0);
 
   constructor() { }
 
@@ -16,6 +19,7 @@ export class DeckService {
     this.deck = [];
 
     cardSuits.map((s) => cardValues.map((v) => this.deck.push(new Card(s, v))));
+    this.updateSubject();
   }
 
   public shuffle() {
@@ -38,7 +42,17 @@ export class DeckService {
 
   public dealCard(): Card {
     // Just return a card from the top of the deck
-    return this.deck.pop();
+    const card = this.deck.pop();
+    this.updateSubject();
+    return card;
+  }
+
+  private updateSubject() {
+    this.deckLength.next(this.deck.length);
+  }
+
+  public getDeckLenght(): Observable<number> {
+    return this.deckLength.asObservable();
   }
 
 }

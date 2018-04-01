@@ -77,7 +77,7 @@ export class BlackjackService {
       } else {
         this.stay(player);
       }
-    }, 1000);
+    }, 800);
   }
 
   private handlePoints(player: Player) {
@@ -101,7 +101,7 @@ export class BlackjackService {
         this.sPlayer.setPoints(player.Id, points);
     }
 
-    // checkWinners(player);
+    this.checkWinners(player);
   }
 
   private cardWeight(card: Card, currentPoints: number): number {
@@ -117,15 +117,31 @@ export class BlackjackService {
     return weight;
   }
 
+  public checkWinners(player) {
+    if (player.Points === 21) {
+      this.sPlayer.updateStatus(player.Id, 'Blackjack', true);
+      this.endGame();
+    } else if (player.Points > 21) {
+      this.sPlayer.updateStatus(player.Id, 'Busted', false);
+      this.stay(player);
+    }
+  }
+
   public endGame() {
     let highestScore = 0;
     let winner: Player;
 
     this.players.map((p) => {
-        if (p.Points <= 21 && p.Points > highestScore) {
-            highestScore = p.Points;
-            winner = p;
-        }
+      if (p.Points <= 21 && p.Points > highestScore) {
+        highestScore = p.Points;
+        winner = p;
+      }
+    });
+    this.sPlayer.updateStatus(winner.Id, '', true);
+    this.players.map((p) => {
+      if (p.Id !== winner.Id) {
+        this.sPlayer.updateStatus(p.Id, '', false);
+      }
     });
   }
 

@@ -4,7 +4,8 @@
   'mixins',
   'print',
   'reboot',
-  'type';
+  'type',
+  'buttons';
   
 @import 'assets/sass/variables';
 @import 'assets/sass/mixins';
@@ -25,6 +26,7 @@ body {
 
   .playerContainer {
     display: block;
+    position: relative;
     margin: 5px auto;
     padding-top: 10px;
     width: 320px;
@@ -48,8 +50,41 @@ body {
     }
     
     .playerHand{
-        overflow: auto;
-        clear: both;
+      overflow: auto;
+      clear: both;
+    }
+
+    .btn-group{
+      margin: 0 auto;
+      .btn{
+        width: 100px;
+        margin: 5px 5px 0;
+      }
+    }
+
+    .playerStatus{
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      padding-top: 30px;
+      text-align: center;
+      font-size: 30px;
+      font-weight: bold;
+      background: rgba(0, 0, 0, .8);
+
+      .win{
+        color: yellow;
+      }
+      .lose{
+        color: red;
+      }
+      .statusText{
+        color: #fff;
+        font-size: 40;
+        text-transform: uppercase;
+      }
     }
 
     &.active{
@@ -63,11 +98,14 @@ body {
     margin: 0 auto;
     
     > div:first-of-type{
-      width: 100%;
+      width: 51px;
       color: #fff;
       text-align: center;
       font-weight: bold;
-      padding-bottom: 10px;
+    }
+
+    .btn{
+      margin-left: -7px;
     }
   }
 }

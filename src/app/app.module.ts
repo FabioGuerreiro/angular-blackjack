@@ -10,6 +10,7 @@ import { TableComponent } from './components/table/table.component';
 import { BlackjackService } from './services/blackjack.service';
 import { DeckService } from './services/deck.service';
 import { PlayerService } from './services/player.service';
+import { PlayerStatusComponent } from './components/player-status/player-status.component';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { PlayerService } from './services/player.service';
     CardComponent,
     HandComponent,
     PlayerComponent,
-    TableComponent
+    TableComponent,
+    PlayerStatusComponent
   ],
   imports: [
     BrowserModule
